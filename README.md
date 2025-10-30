@@ -20,35 +20,23 @@ README.md → Documentation of the steps and purpose.
 
 ⚙️ Setup Steps
 1️⃣ Start Minikube
-bashminikube start
+minikube start
 2️⃣ Build Docker Image inside Minikube
 Since Minikube has its own Docker environment, run:
-bashminikube ssh
+minikube ssh
 docker build -t etl-job:latest /path/to/project
 exit
 3️⃣ Deploy PostgreSQL
-bashkubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-deployment.yaml
 Verify the pod is running:
-bashkubectl get pods
+kubectl get pods
 4️⃣ Deploy the ETL Job
-bashkubectl apply -f etl-job.yaml
+kubectl apply -f etl-job.yaml
 Check logs to confirm the ETL ran successfully:
-bashkubectl logs job/etl-job
+kubectl logs job/etl-job
 5️⃣ Verify Results
 You can connect to the PostgreSQL pod and check that data was loaded:
-bashkubectl exec -it <postgres-pod-name> -- psql -U postgres
-
-🧠 Explanation of Each Stage
-🏗️ Deploy (Infrastructure)
-We use Kubernetes to deploy:
-
-A PostgreSQL pod for data storage.
-An ETL Job pod that runs the Python script once and then exits.
-
-🔄 ETL (Processing)
-The etl.py script simulates extracting data, transforming it (e.g., cleaning or aggregating), and loading it into PostgreSQL.
-✅ Verify (Validation)
-We confirm that the ETL job completed successfully and that the database has received the transformed data.
+kubectl exec -it <postgres-pod-name> -- psql -U postgres
 
 💡 Notes
 
@@ -70,13 +58,6 @@ bashkubectl apply -f etl-job.yaml
 This setup is a training project to understand how containerized ETL workflows run in a Kubernetes environment.
 It demonstrates core DevOps and Data Engineering skills — Docker image creation, YAML configuration, and orchestration with Minikube.
 
-📦 Future Improvements
-
-Add data persistence with PersistentVolumeClaims.
-Automate job scheduling using CronJobs.
-Add monitoring/logging dashboards.
-
-
 🧰 Tools Used
 
 Python 3
@@ -84,5 +65,3 @@ Docker
 Kubernetes (Minikube)
 PostgreSQL
 
-
-Happy Learning! 🎓
